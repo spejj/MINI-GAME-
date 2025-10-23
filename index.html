@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Click the Circle Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #gameArea {
+      width: 400px;
+      height: 400px;
+      background-color: white;
+      border: 3px solid #333;
+      margin: 20px auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    #circle {
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      border-radius: 50%;
+      position: absolute;
+      cursor: pointer;
+    }
+
+    #score, #timer {
+      font-size: 20px;
+      margin: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #333;
+      color: white;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎯 Click the Circle!</h1>
+  <p id="score">Score: 0</p>
+  <p id="timer">Time: 10</p>
+  <div id="gameArea">
+    <div id="circle"></div>
+  </div>
+  <button onclick="startGame()">Start Game</button>
+
+  <script>
+    let score = 0;
+    let timeLeft = 10;
+    let gameInterval;
+    let timerInterval;
+    const circle = document.getElementById('circle');
+    const scoreDisplay = document.getElementById('score');
+    const timerDisplay = document.getElementById('timer');
+    const gameArea = document.getElementById('gameArea');
+
+    function startGame() {
+      score = 0;
+      timeLeft = 10;
+      scoreDisplay.textContent = "Score: 0";
+      timerDisplay.textContent = "Time: 10";
+      moveCircle();
+
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = "Time: " + timeLeft;
+        if (timeLeft <= 0) endGame();
+      }, 1000);
+    }
+
+    function moveCircle() {
+      const x = Math.random() * (gameArea.clientWidth - 50);
+      const y = Math.random() * (gameArea.clientHeight - 50);
+      circle.style.left = x + "px";
+      circle.style.top = y + "px";
+    }
+
+    circle.addEventListener('click', () => {
+      if (timeLeft > 0) {
+        score++;
+        scoreDisplay.textContent = "Score: " + score;
+        moveCircle();
+      }
+    });
+
+    function endGame() {
+      clearInterval(timerInterval);
+      alert("Time's up! Your score is: " + score);
+    }
+  </script>
+
+</body>
+</html>
